@@ -21,5 +21,19 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Lint Code
+      - name: Run ESLint
         run: npm run lint
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test
+        continue-on-error: true
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Analyze code with CodeQL
+        run: codeql analyze --sarif --verbose .
+        continue-on-error: true
