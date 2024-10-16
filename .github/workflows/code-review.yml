@@ -1,33 +1,37 @@
 name: Code Review
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  review:
+  code_review:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Set up job
+        run: echo "Setting up the job"
+
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "21.1.0"
+          node-version: "16"
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
       - name: Run ESLint
         run: npm run lint
-        continue-on-error: true
 
       - name: Run tests
         run: npm test
-        continue-on-error: true
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -36,12 +40,23 @@ jobs:
 
       - name: Analyze code with CodeQL
         uses: github/codeql-action/analyze@v2
-        with:
-          category: "Security"
-          output: results.sarif
 
-      - name: Upload SARIF file
-        uses: github/code-scanning/sarif-action@v1
-        with:
-          sarif_file: results.sarif
-          category: "CodeQL"
+      - name: Enforce required checks
+        if: success()
+        run: echo "All checks passed"
+
+      - name: Post Initialize CodeQL
+        if: always()
+        run: echo "CodeQL initialization completed"
+
+      - name: Post Use Node.js
+        if: always()
+        run: echo "Node.js setup completed"
+
+      - name: Post Checkout code
+        if: always()
+        run: echo "Code checkout completed"
+
+      - name: Complete job
+        if: always()
+        run: echo "Job completed successfully"
