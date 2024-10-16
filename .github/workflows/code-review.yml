@@ -35,5 +35,13 @@ jobs:
           languages: javascript
 
       - name: Analyze code with CodeQL
-        run: codeql analyze --sarif --verbose .
-        continue-on-error: true
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "Security"
+          output: results.sarif
+
+      - name: Upload SARIF file
+        uses: github/code-scanning/sarif-action@v1
+        with:
+          sarif_file: results.sarif
+          category: "CodeQL"
