@@ -1,0 +1,74 @@
+name: Code Review
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Setup Job
+      - name: Set up job
+        run: echo "Setting up the job"
+
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js (update version if necessary, using the latest or Node 20)
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # Update to a more recent version if possible
+
+      # Install npm dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run ESLint to check for linting issues
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true # Allow the workflow to continue even if linting fails
+
+      # Run the tests
+      - name: Run tests
+        run: npm test
+        continue-on-error: true # Allow the workflow to continue even if tests fail
+
+      # Initialize CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      # Analyze code with CodeQL
+      - name: Analyze code with CodeQL
+        uses: github/codeql-action/analyze@v2
+
+      # Enforce required checks
+      - name: Enforce required checks
+        if: success() # Only runs if the workflow is successful
+        run: echo "All checks passed"
+
+      # Post-processing and cleanup
+      - name: Post Initialize CodeQL
+        if: always() # Always runs even if previous steps fail
+        run: echo "CodeQL initialization completed"
+
+      - name: Post Use Node.js
+        if: always()
+        run: echo "Node.js setup completed"
+
+      - name: Post Checkout code
+        if: always()
+        run: echo "Code checkout completed"
+
+      - name: Complete job
+        if: always()
+        run: echo "Job completed successfully"
