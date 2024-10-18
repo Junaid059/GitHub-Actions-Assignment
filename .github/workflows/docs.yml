@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write # Grant write permission for contents
+  contents: write
 
 jobs:
   deploy_docs:
