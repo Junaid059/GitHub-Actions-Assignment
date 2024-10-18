@@ -22,9 +22,9 @@ jobs:
         run: npm install
 
       - name: Build documentation
-        run: npm run build
+        run: npm run build # Adjust this if you're using a different command
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./build
+          publish_dir: ./docs
