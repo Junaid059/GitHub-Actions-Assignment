@@ -18,43 +18,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Setup Job
       - name: Set up job
         run: echo "Setting up the job"
 
+      # Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Set up Node.js
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
 
+      # Install npm dependencies
       - name: Install dependencies
         run: npm install
 
+      # Run ESLint to check for linting issues
       - name: Run ESLint
         run: npm run lint
         continue-on-error: true
 
+      # Run the tests
       - name: Run tests
         run: npm test
         continue-on-error: true
 
-      - name: Check CodeQL version
-        run: /opt/hostedtoolcache/CodeQL/2.19.1/x64/codeql/codeql version --format=json
-
+      # Initialize CodeQL
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: javascript
 
+      # Analyze code with CodeQL
       - name: Analyze code with CodeQL
         uses: github/codeql-action/analyze@v2
 
+      # Enforce required checks
       - name: Enforce required checks
         if: success()
         run: echo "All checks passed"
 
+      # Post-processing and cleanup
       - name: Post Initialize CodeQL
         if: always()
         run: echo "CodeQL initialization completed"
