@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write # Grant write permission for contents
+
 jobs:
   deploy_docs:
     runs-on: ubuntu-latest
@@ -22,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Build documentation
-        run: npm run build # Adjust this if you're using a different command
+        run: npm run build-docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
