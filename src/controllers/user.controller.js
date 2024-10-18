@@ -420,7 +420,7 @@ export {
   generateAccessAndRefreshToken,
   registerUser,
   loginUser,
-  refreshaccessToken,
+  refreshAccessToken,
   logOutUser,
   updateUserAvatar,
   updateUserCoverImage,
