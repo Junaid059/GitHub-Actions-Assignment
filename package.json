@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "description": "",
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "build": "jsdoc -c jsdoc.json",
     "build-docs": "jsdoc -c jsdoc.json",
     "test": "echo \"No tests available\"",
     "lint": "eslint ."
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@eslint/js": "^9.12.0",
     "@types/cookie-parser": "^1.4.7",
@@ -21,7 +21,7 @@
     "eslint": "^9.12.0",
     "globals": "^15.11.0",
     "jest": "^29.7.0",
-    "jsdoc": "^4.0.3",
+    "jsdoc": "^3.6.6",
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3"
   },
