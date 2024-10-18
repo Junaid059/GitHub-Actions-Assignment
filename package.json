@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "jsdoc -c jsdoc.json",
     "build-docs": "jsdoc -c jsdoc.json",
     "test": "echo \"No tests available\"",
     "lint": "eslint ."
